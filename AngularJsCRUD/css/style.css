@@ -1,0 +1,30 @@
+body {
+	background-color: skyblue;
+}
+
+.head-section {
+	height: 100px;
+	background: aqua;
+}
+.left-section {
+	height: 400px;
+	background: white;
+}
+.left-section ul {
+	
+}
+.body-content {
+
+
+}
+.body-content table{
+	border-style: solid;
+	border: 2px;
+
+}
+.footer-section {
+	height: 50px;
+	background: blue;
+	font-size: 10px;
+	color: white;
+}

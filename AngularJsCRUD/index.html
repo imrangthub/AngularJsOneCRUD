@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="stRegistration">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>AngularJS |  CRUD </title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Angular -->
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <link href="css/style.css" rel="stylesheet">
+  </head>
+  <body ng-controller="regController as reg">  
+  <div class="container">
+
+   <div class="row">
+     <div class="col-md-12 head-section">
+        <h1 align="center">Welcome to AngularJS CRUD application evulate</h1>
+        {{reg.msg}}
+        
+     </div>
+      <div class="col-md-12">
+
+          <div class="col-md-3 left-section">
+            <h1 align="center"> Left Section</h1>
+            <hr/>
+            <ul>
+              <li>Student</li>
+              <li>Libary</li>
+              <li>Class</li>
+            </ul>
+         </div>
+           
+          <div class="col-md-9 body-content">
+           <div class="col-m">
+            <div class="col-md-12" style="margin-top: 10px; height: 100px;">
+               <h4 align="center">Student List</h4>
+                <div class="col-md-12">
+                  <div id='flashMsg' class="alert alert-info" ng-if="reg.flashMsg">
+                    <a href="#" class="close" ng-click="reg.clearMessage()">&times;</a>
+                           {{ reg.flashMsg }}
+                    </div>
+                  </div>
+            </div>
+              <button id="addBtn" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal" ng-click="reg.addStudent()">Add new</button>
+            </div>
+            <div class="show-table">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>S-NO</th>
+                    <th>Name</th>
+                    <th>Year</th>
+                    <th>Department</th>
+                    <th>Action</th>         
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat = "student in reg.damoStDataList">
+                    <td>{{ $index+1 }}</td>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.year}}</td>
+                    <td>{{student.department}}</td>
+                    <td>
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModalEdit" ng-click="reg.editStudentInfo(student)">Edit</button>
+                      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModalDelete" ng-click="reg.delateStudent(student)">Delete</button>
+                    </td>
+                </tbody>
+              </table>
+            </div>
+      
+          </div>
+
+      </div>
+      <div class="col-md-12 footer-section">
+        <span align="center">Footer section</span>
+     </div>
+   </div>
+     
+
+
+  </div>
+ <!--  End body content -->
+
+  <!-- Modal for new User -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title" ng-bind="reg.addModalTitle"></h4>
+        </div>
+        <div class="modal-body">
+    <form class="form-horizontal">
+      <div class="col-sm-10 col-md-offset-1">
+
+      <div class="form-group">
+        <label class="control-label col-sm-4">Name</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" ng-model = "reg.name">
+        </div>
+      </div>
+       <div class="form-group">
+        <label class="control-label col-sm-4">Year</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" ng-model = "reg.year">
+        </div>
+      </div>
+       <div class="form-group">
+        <label class="control-label col-sm-4">Department</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" ng-model = "reg.department">
+        </div>
+      </div>
+        
+      </div>
+       <div class="form-group"> 
+        <div class="col-sm-offset-2 col-sm-8">
+          <button type="submit" id='saveBtn' class="btn btn-success pull-right" data-dismiss="modal" ng-click="reg.saveUser()">SAVE</button>
+        </div>
+      </div>
+    </form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div> 
+  <!--End Modal -->
+  <!-- Modal for Edit User -->
+  <div class="modal fade" id="myModalEdit" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title" ng-bind="reg.addModalTitle"></h4>
+        </div>
+        <div class="modal-body">
+    <form class="form-horizontal">
+      <div class="col-sm-10 col-md-offset-1">
+
+      <div class="form-group">
+        <label class="control-label col-sm-4">Name</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" ng-model = "reg.editInfo.name">
+        </div>
+      </div>
+       <div class="form-group">
+        <label class="control-label col-sm-4">Year</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" ng-model = "reg.editInfo.year">
+        </div>
+      </div>
+       <div class="form-group">
+        <label class="control-label col-sm-4">Department</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" ng-model = "reg.editInfo.department">
+        </div>
+      </div>
+        
+      </div>
+       <div class="form-group"> 
+        <div class="col-sm-offset-2 col-sm-8">
+          <button type="submit" id='saveBtn' class="btn btn-success pull-right" data-dismiss="modal" ng-click="reg.updateStudent()">Update</button>
+        </div>
+      </div>
+    </form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div> 
+  <!--End Modal -->
+    <!-- Modal for Delete-->
+  <div class="modal fade" id="myModalDelete" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Delete this user:</h4>
+        </div>
+        <div class="modal-body">
+        {{ reg.deletedStInfo.name }}
+        <br/>
+        <strong style="color: red; ">
+          Really you going to delete this person......?
+        </strong>
+      
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="reg.confirmDelete()">Yes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  <!--End Modal -->
+
+  </body>
+   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+</html>
+
+<script>
+ $(document).ready(function(){
+
+
+
+
+    $("#saveBtn").click(function(){
+    
+
+    });
+
+  
+
+
+
+
+
+
+ });  
+</script>
